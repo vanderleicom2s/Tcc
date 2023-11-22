@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import firebase from './firesebase';
+import firebaseApp from './FirebaseDb';
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ const Register = ({ navigation }) => {
       return;
     }
 
-    const auth = getAuth();
+    const auth = getAuth(firebaseApp);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getDatabase, ref, push } from 'firebase/database'; // Importe os módulos corretos do Firebase
+import { getDatabase, ref, push } from 'firebase/database';
+import firebaseApp from './FirebaseDb';
 
 const Curriculo = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -10,11 +11,10 @@ const Curriculo = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const auth = getAuth();
+      const auth = getAuth(firebaseApp);
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Login bem-sucedido para:', email);
-      // Navegue para a tela desejada após o login bem-sucedido
-      navigation.navigate('TelaApósLogin');
+      navigation.navigate('Teste');
     } catch (error) {
       setError(error.message);
       console.log('Erro de login:', error.message);

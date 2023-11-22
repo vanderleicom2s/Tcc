@@ -2,20 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { ref, set, get, getDatabase } from 'firebase/database';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyC-sTNLSRresl1l8dEdHUap3MDnMa8olWg",
-  authDomain: "tcc-01-14792.firebaseapp.com",
-  databaseURL: "https://tcc-01-14792-default-rtdb.firebaseio.com",
-  projectId: "tcc-01-14792",
-  storageBucket: "tcc-01-14792.appspot.com",
-  messagingSenderId: "432967975257",
-  appId: "1:432967975257:web:890f1cf2373a70fa5d8c48"
-};
-
-// Inicialize o Firebase
-const app = initializeApp(firebaseConfig);
+import firebaseApp from './FirebaseDb';
 
 const Profile = () => {
   const [inputID, setInputID] = useState(0);
@@ -24,11 +11,11 @@ const Profile = () => {
   const [inputArea, setInputArea] = useState('');
   const [inputCidade, setInputCidade] = useState('');
   const [inputMais, setInputMais] = useState('');
-  const [inputEmail, setInputEmail] = useState(''); // Adicione campo de Email
-  const [inputSenha, setInputSenha] = useState(''); // Adicione campo de Senha
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputSenha, setInputSenha] = useState('');
 
-  const db = getDatabase();
-  const auth = getAuth(); // Obtém a instância de autenticação
+  const db = getDatabase(firebaseApp);
+  const auth = getAuth(firebaseApp);
 
   useEffect(() => {
     const fetchNextUserId = async () => {
