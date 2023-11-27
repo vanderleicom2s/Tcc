@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { ref, get, getDatabase, update } from 'firebase/database';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import firebaseApp from './FirebaseDb';
 
 const Teste = () => {
   const [empresaData, setEmpresaData] = useState(null);
@@ -11,13 +12,12 @@ const Teste = () => {
 
   const buscarProximaEmpresa = async () => {
     try {
-      const db = getDatabase();
-      const empresaRef = ref(db, `Empresas/${currentId}`);
-
-      const snapshot = await get(empresaRef);
-
-      if (snapshot.exists()) {
-        setEmpresaData(snapshot.val());
+      const db = getDatabase(firebaseApp);
+      const empresasRef = ref(db, 'Empresas');
+      const empresaSnapshot = await get(ref(empresasRef, String(currentId)));
+  
+      if (empresaSnapshot.exists()) {
+        setEmpresaData(empresaSnapshot.val());
       } else {
         console.log(`Nenhuma empresa encontrada com o ID ${currentId}.`);
       }
@@ -33,11 +33,11 @@ const Teste = () => {
   const darLike = async () => {
     try {
       if (empresaData) {
-        const auth = getAuth();
+        const auth = getAuth(firebaseApp);
         const user = auth.currentUser;
 
         if (user) {
-          const db = getDatabase();
+          const db = getDatabase(firebaseApp);
           const empresaRef = ref(db, `Empresas/${currentId}/UII`);
           await update(empresaRef, { Email: user.email });
 
@@ -52,27 +52,25 @@ const Teste = () => {
   useEffect(() => {
     buscarProximaEmpresa();
 
-    const auth = getAuth();
+    const auth = getAuth(firebaseApp);
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserEmail(user.email);
       }
     });
-  }, []);
+  }, [currentId]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Text style={styles.titulo}>Arskan</Text>
-      </View>
       <View>
-      <ImageBackground  
-    source={require('./chad.png')} style={{width: 350, height: 500}}/>
+        <ImageBackground
+          source={require('./chad.png')} style={{ width: 350, height: 500 }}
+        />
       </View>
       <View style={styles.centeredContent}>
         {empresaData ? (
           <View style={styles.informacoesEmpresa}>
-            <Text>Nome: {empresaData.Name}</Text>
+            <Text>Nome: {empresaData.Nome}</Text>
             {showAllInfo && (
               <>
                 <Text>Email: {empresaData.Email}</Text>
@@ -85,7 +83,6 @@ const Teste = () => {
         )}
       </View>
       <View style={styles.botoesContainer}>
-        {/* botão para ver mais informações */}
         <TouchableOpacity
           style={[styles.botao, styles.mostrarInfoButton]}
           onPress={toggleInfoDisplay}
@@ -95,7 +92,6 @@ const Teste = () => {
           </Text>
         </TouchableOpacity>
 
-        {/* botão de like */}
         <TouchableOpacity
           style={[styles.botao, styles.like]}
           onPress={darLike}
@@ -103,12 +99,10 @@ const Teste = () => {
           <Text style={styles.textoBotao}>Like</Text>
         </TouchableOpacity>
 
-        {/* botão para próximo usuário */}
         <TouchableOpacity
           style={[styles.botao, styles.nextUser]}
           onPress={() => {
             setCurrentId(currentId + 1);
-            buscarProximaEmpresa();
           }}
         >
           <Text style={styles.textoBotao}>Próximo</Text>
@@ -126,15 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20, // Adicione um preenchimento para afastar os botões da borda
-  },
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  titulo: {
-    fontSize: 24,
+    padding: 20,
   },
   centeredContent: {
     flex: 1,
@@ -150,7 +136,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     width: '100%',
-    padding: 10, // Espaçamento interno dos botões
+    padding: 10,
   },
   botao: {
     borderRadius: 7,

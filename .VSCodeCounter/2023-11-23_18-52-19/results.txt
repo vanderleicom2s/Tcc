@@ -1,0 +1,45 @@
+Date : 2023-11-23 18:52:19
+Directory : c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git
+Total : 17 files,  11912 codes, 24 comments, 110 blanks, all 12046 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |     10,898 |         13 |          2 |     10,913 |
+| JavaScript |         13 |      1,012 |         11 |        108 |      1,131 |
+| Markdown   |          1 |          2 |          0 |          0 |          2 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                      | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                         |         17 |     11,912 |         24 |        110 |     12,046 |
+| . (Files)                                                                 |          6 |     10,937 |         16 |          6 |     10,959 |
+| src                                                                       |         11 |        975 |          8 |        104 |      1,087 |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                  | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\App.js                   | JavaScript |         31 |          3 |          3 |         37 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\README.md                | Markdown   |          2 |          0 |          0 |          2 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\app.json                 | JSON       |          8 |         13 |          0 |         21 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\babel.config.js          | JavaScript |          6 |          0 |          1 |          7 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\package-lock.json        | JSON       |     10,845 |          0 |          1 |     10,846 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\package.json             | JSON       |         45 |          0 |          1 |         46 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Chamar.js            | JavaScript |         84 |          0 |          7 |         91 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\ChatScreen.js        | JavaScript |         80 |          1 |          7 |         88 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Curriculo.js         | JavaScript |         88 |          0 |          6 |         94 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Empresa.js           | JavaScript |        148 |          4 |         15 |        167 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\FirebaseDb.js        | JavaScript |         20 |          1 |          5 |         26 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\ImageScreen.js       | JavaScript |         75 |          1 |         14 |         90 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Login.js             | JavaScript |         83 |          0 |          6 |         89 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Profile.js           | JavaScript |        135 |          1 |         14 |        150 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Register.js          | JavaScript |         85 |          0 |         11 |         96 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Teste.js             | JavaScript |        154 |          0 |         14 |        168 |
+| c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\UploadImageScreen.js | JavaScript |         23 |          0 |          5 |         28 |
+| Total                                                                     |            |     11,912 |         24 |        110 |     12,046 |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -1,63 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import firebase from './firesebase';
+import firebaseApp from './FirebaseDb';
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isFormValid, setIsFormValid] = useState(false);
 
-  useEffect(() => {
-    const validateForm = () => {
-      setIsFormValid(email.trim() !== '' && password.trim() !== '');
-    };
-
-    validateForm();
-  }, [email, password]);
-
-  const handleRegister = async () => {
-    if (!isFormValid) {
-      Alert.alert('Campos Vazios', 'Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const auth = getAuth();
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-      const user = userCredential.user;
-
-      navigation.navigate('Curriculo');
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(`Código de erro: ${errorCode}, Mensagem de erro: ${errorMessage}`);
-      Alert.alert('Erro ao Registrar', 'Ocorreu um erro ao criar a conta. Por favor, tente novamente.');
-    }
+  const handleRegister = () => {
+    const auth = getAuth(firebaseApp);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log('Registro bem-sucedido!');
+        navigation.navigate('Informacoes');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(`Código de erro: ${errorCode}, Mensagem de erro: ${errorMessage}`);
+      });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-      />
-      <TouchableOpacity onPress={handleRegister} disabled={!isFormValid}>
-        <View style={[styles.button, { backgroundColor: isFormValid ? 'blue' : 'gray' }]}>
-          <Text style={styles.buttonText}>Registrar</Text>
-        </View>
+      <Text style={styles.title}>Crie uma conta</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Endereço de E-mail"
+          onChangeText={text => setEmail(text)}
+          value={email}
+        />
+        <View style={styles.underline}></View>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          secureTextEntry
+        />
+        <View style={styles.underline}></View>
+      </View>
+      <TouchableOpacity onPress={handleRegister} style={styles.button}>
+        <Text style={styles.buttonText}>Criar Conta</Text>
       </TouchableOpacity>
     </View>
   );
@@ -68,28 +55,48 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 150,
+    marginBottom: 150,
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
   },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: 'gray',
+  inputContainer: {
+    position: 'relative',
+    width: '100%',
     marginBottom: 10,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 0,
     paddingHorizontal: 10,
+  },
+  underline: {
+    position: 'absolute',
+    bottom: 0,
+    height: 2,
+    width: '100%',
   },
   button: {
     backgroundColor: 'blue',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    padding: 10,
     borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+    textAlign: 'center',
   },
 });
 

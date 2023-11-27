@@ -1,63 +1,52 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import firebaseApp from './FirebaseDb';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyC-sTNLSRresl1l8dEdHUap3MDnMa8olWg",
-      authDomain: "tcc-01-14792.firebaseapp.com",
-      databaseURL: "https://tcc-01-14792-default-rtdb.firebaseio.com",
-      projectId: "tcc-01-14792",
-      storageBucket: "tcc-01-14792.appspot.com",
-      messagingSenderId: "432967975257",
-      appId: "1:432967975257:web:890f1cf2373a70fa5d8c48"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Aqui, você realizará a autenticação no Firebase
+    const auth = getAuth(firebaseApp);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         console.log('Login bem-sucedido!');
-        // Redirecionar para a próxima tela após o login bem-sucedido
-        navigation.navigate('Home');
+        navigation.navigate('Empresa');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.error(`Código de erro: ${errorCode}, Mensagem de erro: ${errorMessage}`);
-        
-        // Se o erro for de autenticação, você pode lidar de forma específica aqui
-        // Exemplo: exibir uma mensagem ao usuário informando que as credenciais estão incorretas
       });
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tela de Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Endereço de E-mail"
-        onChangeText={text => setEmail(text)}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        onChangeText={text => setPassword(text)}
-        value={password}
-        secureTextEntry
-      />
+      <Text style={styles.title}>Arskhan</Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Endereço de E-mail"
+          onChangeText={text => setEmail(text)}
+          value={email}
+        />
+        <View style={styles.underline}></View>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Senha"
+          onChangeText={text => setPassword(text)}
+          value={password}
+          secureTextEntry
+        />
+        <View style={styles.underline}></View>
+      </View>
       <TouchableOpacity onPress={handleLogin} style={styles.button}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Registro')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={styles.registerText}>Não tem conta? Crie aqui</Text>
       </TouchableOpacity>
     </View>
@@ -70,27 +59,47 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 150,
+    marginBottom: 150,
   },
   title: {
     fontSize: 24,
     marginBottom: 20,
+  },
+  inputContainer: {
+    position: 'relative',
+    width: '100%',
+    marginBottom: 10,
   },
   input: {
     width: '100%',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
+    marginBottom: 0,
     paddingHorizontal: 10,
+  },
+  underline: {
+    position: 'absolute',
+    bottom: 0,
+    height: 2,
+    width: '100%',
   },
   button: {
     backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+    textAlign: 'center',
   },
   registerText: {
     marginTop: 10,

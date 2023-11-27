@@ -1,47 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
-import { ref, set, get, getDatabase } from 'firebase/database';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { initializeApp } from 'firebase/app';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { ref, push, set, getDatabase } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
+import * as ImagePicker from 'expo-image-picker';
+import firebaseApp from './FirebaseDb';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyC-sTNLSRresl1l8dEdHUap3MDnMa8olWg",
-  authDomain: "tcc-01-14792.firebaseapp.com",
-  databaseURL: "https://tcc-01-14792-default-rtdb.firebaseio.com",
-  projectId: "tcc-01-14792",
-  storageBucket: "tcc-01-14792.appspot.com",
-  messagingSenderId: "432967975257",
-  appId: "1:432967975257:web:890f1cf2373a70fa5d8c48"
-};
-
-// Inicialize o Firebase
-const app = initializeApp(firebaseConfig);
-
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [inputID, setInputID] = useState(0);
   const [inputName, setInputName] = useState('');
   const [inputTel, setInputTel] = useState('');
   const [inputArea, setInputArea] = useState('');
   const [inputCidade, setInputCidade] = useState('');
   const [inputMais, setInputMais] = useState('');
-  const [inputEmail, setInputEmail] = useState(''); // Adicione campo de Email
-  const [inputSenha, setInputSenha] = useState(''); // Adicione campo de Senha
+  const [inputDescricao, setInputDescricao] = useState('');
+  const [imageUri, setImageUri] = useState(null);
 
-  const db = getDatabase();
-  const auth = getAuth(); // Obtém a instância de autenticação
+  const db = getDatabase(firebaseApp);
 
   useEffect(() => {
     const fetchNextUserId = async () => {
       const userRef = ref(db, 'Usuarios');
-      const snapshot = await get(userRef);
-
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const userIds = Object.keys(data);
-        const maxId = Math.max(...userIds);
-        setInputID(maxId + 1);
-      } else {
-        setInputID(1);
+      try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const userIds = Object.keys(data);
+          const maxId = Math.max(...userIds);
+          setInputID(maxId + 1);
+        } else {
+          setInputID(1);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
       }
     };
 
@@ -50,37 +40,55 @@ const Profile = () => {
 
   const handleSendData = async () => {
     try {
-      // Primeiro, crie o usuário na autenticação com email e senha
-      const userCredential = await createUserWithEmailAndPassword(auth, inputEmail, inputSenha);
+      const userRef = ref(db, 'Usuarios');
+      const newUserRef = push(userRef);
 
-      // Em seguida, obtenha o ID do usuário criado na autenticação
-      const userId = userCredential.user.uid;
-
-      // Em seguida, envie as informações restantes para o Realtime Database
-      const userRef = ref(db, `Usuarios/${userId}`);
-
-      await set(userRef, {
+      const userData = {
+        id: inputID,
         Name: inputName,
         tel: inputTel,
         Area: inputArea,
         Cidade: inputCidade,
         Mais: inputMais,
-      });
+        Descricao: inputDescricao,
+        Image: imageUri ? await convertToBase64(imageUri) : null,
+      };
 
-      console.log('Informação enviada com sucesso para a Realtime Database e o usuário foi criado na autenticação!');
+      await set(newUserRef, userData);
+
+      console.log('Informação enviada com sucesso para a Realtime Database!');
       setInputID(0);
       setInputName('');
       setInputTel('');
       setInputArea('');
       setInputCidade('');
       setInputMais('');
-      setInputEmail('');
-      setInputSenha('');
+      setInputDescricao('');
+      setImageUri(null);
 
       alert("Dados adicionados com sucesso");
+
+      navigation.navigate('Login');
     } catch (error) {
       console.error('Erro ao enviar informação:', error);
-      alert("Erro ao adicionar dados ou criar usuário");
+      alert("Erro ao adicionar dados");
+    }
+  };
+
+  const handleImageUpload = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== 'granted') {
+      console.error('Permissão de acesso à biblioteca de mídia negada.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync();
+
+    if (!result.cancelled) {
+      // Acesse a URI da imagem a partir do array de assets
+      const selectedImage = result.assets && result.assets.length > 0 ? result.assets[0] : null;
+      setImageUri(selectedImage ? selectedImage.uri : null);
     }
   };
 
@@ -119,17 +127,15 @@ const Profile = () => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        value={inputEmail}
-        onChangeText={(text) => setInputEmail(text)}
+        placeholder="Descrição"
+        value={inputDescricao}
+        onChangeText={(text) => setInputDescricao(text)}
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Senha"
-        value={inputSenha}
-        onChangeText={(text) => setInputSenha(text)}
-        secureTextEntry={true} // Para ocultar a senha
-      />
+      <TouchableOpacity onPress={handleImageUpload}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>Escolher Imagem</Text>
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleSendData}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Continuar</Text>
@@ -162,6 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     padding: 10,
     borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: 'white',

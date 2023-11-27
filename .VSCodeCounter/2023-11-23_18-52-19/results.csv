@@ -1,0 +1,19 @@
+"filename", "language", "JSON", "JavaScript", "Markdown", "comment", "blank", "total"
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\App.js", "JavaScript", 0, 31, 0, 3, 3, 37
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\README.md", "Markdown", 0, 0, 2, 0, 0, 2
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\app.json", "JSON", 8, 0, 0, 13, 0, 21
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\babel.config.js", "JavaScript", 0, 6, 0, 0, 1, 7
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\package-lock.json", "JSON", 10845, 0, 0, 0, 1, 10846
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\package.json", "JSON", 45, 0, 0, 0, 1, 46
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Chamar.js", "JavaScript", 0, 84, 0, 0, 7, 91
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\ChatScreen.js", "JavaScript", 0, 80, 0, 1, 7, 88
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Curriculo.js", "JavaScript", 0, 88, 0, 0, 6, 94
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Empresa.js", "JavaScript", 0, 148, 0, 4, 15, 167
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\FirebaseDb.js", "JavaScript", 0, 20, 0, 1, 5, 26
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\ImageScreen.js", "JavaScript", 0, 75, 0, 1, 14, 90
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Login.js", "JavaScript", 0, 83, 0, 0, 6, 89
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Profile.js", "JavaScript", 0, 135, 0, 1, 14, 150
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Register.js", "JavaScript", 0, 85, 0, 0, 11, 96
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\Teste.js", "JavaScript", 0, 154, 0, 0, 14, 168
+"c:\Users\yuric\OneDrive\Área de Trabalho\tcc-git\src\UploadImageScreen.js", "JavaScript", 0, 23, 0, 0, 5, 28
+"Total", "-", 10898, 1012, 2, 24, 110, 12046
